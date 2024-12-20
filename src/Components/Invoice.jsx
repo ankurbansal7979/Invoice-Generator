@@ -41,14 +41,18 @@ function Invoice() {
     setItems(updatedItems);
   };
 
-  const calculateTotal = () => {
-    const totalBeforeDiscount = items.reduce(
+  const totalAmount = () => {
+    return items.reduce(
       (total, item) => total + item.price * item.quantity,
       0
     );
+  }
+
+  const calculateTotal = () => {
+    
     const discountAmount =
-      (invoiceDetails.discount / 100) * totalBeforeDiscount;
-    return totalBeforeDiscount - discountAmount;
+      (invoiceDetails.discount / 100) * totalAmount();
+    return totalAmount() - discountAmount;
   };
 
   const handleSubmit = (e) => {
@@ -57,9 +61,9 @@ function Invoice() {
     setMainData({
       invoiceDetails,
       items: items,
-      total: calculateTotal(),
+      total: totalAmount(),
+      afterDiscount: calculateTotal()
     });
-    items.reduce((val) => {val.amount})
   };
 
   return (
@@ -80,7 +84,7 @@ function Invoice() {
                     value={invoiceDetails.billDate}
                     onChange={handleChange}
                     className="w-full p-2 border border-gray-300 rounded"
-                    // required
+                    required
                   />
                 </div>
                 <div>
@@ -93,7 +97,7 @@ function Invoice() {
                     value={invoiceDetails.invoiceNumber}
                     onChange={handleChange}
                     className="w-full p-2 border border-gray-300 rounded"
-                    // required
+                    required
                   />
                 </div>
               </div>
@@ -109,7 +113,7 @@ function Invoice() {
                     value={invoiceDetails.customerName}
                     onChange={handleChange}
                     className="w-full p-2 border border-gray-300 rounded"
-                    // required
+                    required
                   />
                 </div>
                 <div>
@@ -122,7 +126,7 @@ function Invoice() {
                     value={invoiceDetails.shopkeeperName}
                     onChange={handleChange}
                     className="w-full p-2 border border-gray-300 rounded"
-                    // required
+                    required
                   />
                 </div>
               </div>
@@ -159,7 +163,7 @@ function Invoice() {
                           value={item.itemName}
                           onChange={(e) => handleItemChange(e, index)}
                           className="w-full p-2 border border-gray-300 rounded"
-                          // required
+                          required
                         />
                       </td>
                       <td className="border border-gray-300 px-4 py-2">
@@ -170,7 +174,7 @@ function Invoice() {
                           onChange={(e) => handleItemChange(e, index)}
                           className="w-full p-2 border border-gray-300 rounded"
                           min="0"
-                          // required
+                          required
                         />
                       </td>
                       <td className="border border-gray-300 px-4 py-2">
@@ -181,7 +185,7 @@ function Invoice() {
                           onChange={(e) => handleItemChange(e, index)}
                           className="w-full p-2 border border-gray-300 rounded"
                           min="1"
-                          // required
+                          required
                         />
                       </td>
                       <td className="border border-gray-300 px-4 py-2">
@@ -192,7 +196,7 @@ function Invoice() {
                           onChange={(e) => handleItemChange(e, index)}
                           className="w-full p-2 border border-gray-300 rounded"
                           min="1"
-                          // required
+                          required
                         />
                         {/* ₹{} */}
                       </td>
@@ -220,6 +224,20 @@ function Invoice() {
 
               {/* Discount and Total */}
               <div className="mt-6 grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium">
+                    Total Amount
+                  </label>
+                  <input
+                    type="text"
+                    readOnly
+                    value={`₹${totalAmount().toFixed(2)}`}
+                    onChange={handleChange}
+                    className="w-full p-2 border border-gray-300 rounded"
+                    min="0"
+                    max="100"
+                  />
+                </div>
                 <div>
                   <label className="block text-sm font-medium">
                     Discount (%)

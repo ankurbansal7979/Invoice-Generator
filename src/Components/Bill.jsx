@@ -2,7 +2,7 @@ import React from "react";
 
 function Bill(props) {
   console.log(props);
-  const { invoiceDetails, items, total } = props.mainData;
+  const { invoiceDetails, items, total, afterDiscount } = props.mainData;
   return (
     <div className="max-w-lg mx-auto border rounded-lg shadow-lg p-6 bg-white">
       {/* Header */}
@@ -14,7 +14,7 @@ function Bill(props) {
         </div>
         <div className="text-right">
           <p className="text-gray-600">Amount Due:</p>
-          <p className="text-2xl font-bold text-blue-600">₹ {total}</p>
+          <p className="text-2xl font-bold text-blue-600">₹ {afterDiscount}</p>
         </div>
       </div>
 
@@ -62,7 +62,7 @@ function Bill(props) {
       <div className="text-right mt-4">
         <div className="flex justify-between mb-2">
           <p className="font-bold">SUBTOTAL</p>
-          <p>$  </p>
+          <p>₹ {total} </p>
         </div>
         <div className="flex justify-between mb-2">
           <p className="font-bold">Discount</p>
@@ -70,7 +70,7 @@ function Bill(props) {
         </div>
         <div className="flex justify-between">
           <p className="font-bold text-lg">TOTAL</p>
-          <p className="text-lg">₹ {total}</p>
+          <p className="text-lg">₹ {afterDiscount}</p>
         </div>
       </div>
 
