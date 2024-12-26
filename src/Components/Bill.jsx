@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-// import InvoicePDF from "./InvoicePDF";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
@@ -30,6 +29,7 @@ function Bill(props) {
         imgWidth * ratio,
         imgHeight * ratio
       );
+
       pdf.save("invoice.pdf");
     });
   };
